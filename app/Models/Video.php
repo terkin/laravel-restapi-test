@@ -4,6 +4,7 @@ namespace App\Models;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Acacha\Stateful\Traits\StatefulTrait;
 use Acacha\Stateful\Contracts\Stateful;
+use Illuminate\Support\MessageBag;
 
 /**
  * @property string $fileName
@@ -15,6 +16,7 @@ use Acacha\Stateful\Contracts\Stateful;
  * @method failed - performs check if status field = fail
  * @method restart - performs status field transaction
  */
+
 class Video extends Eloquent implements Stateful
 {
 	use StatefulTrait;
@@ -22,9 +24,9 @@ class Video extends Eloquent implements Stateful
 	const STATE = 'status';
 
 	const STATUS_SCHEDULED = 'scheduled';
-	const STATUS_PROCESSING = 'process';
-	const STATUS_FAIL = 'fail';
-	const STATUS_DONE = 'done';
+	const STATUS_PROCESSING = 'processing';
+	const STATUS_FAIL = 'failed';
+	const STATUS_DONE = 'complete';
 
 	protected $collection = 'video_collection';
 	protected $guarded = []; //this cost me around 1 hour
@@ -73,6 +75,7 @@ class Video extends Eloquent implements Stateful
 	public function __construct(array $attributes = array())
 	{
 		$this->setRawAttributes($this->defaults, true);
+		$this->errorMessages = new MessageBag();
 		parent::__construct($attributes);
 	}
 

@@ -23,9 +23,9 @@ class VideoController extends ApiController {
 		$videoModel = $videoRepo->getVideoById($id);
 		$this->validateOwnership($videoModel);
 
-		return $this->sendResponse([
-			'data' => (new VideoTransformer)->transform($videoModel)
-		]);
+		return $this->sendResponse(
+			(new VideoTransformer)->transform($videoModel)
+		);
 	}
 
 	public function restart($id, VideoRepository $videoRepo) {
@@ -48,9 +48,9 @@ class VideoController extends ApiController {
 			);
 		}
 
-		return $this->sendResponse([
-			'data' => (new VideoTransformer)->transform($videoModel)
-		]);
+		return $this->sendResponse(
+			(new VideoTransformer)->transform($videoModel)
+		);
 	}
 
 	/**
