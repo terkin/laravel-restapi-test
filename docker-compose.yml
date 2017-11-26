@@ -12,12 +12,12 @@ services:
 
   mongodb:
     image: mvertes/alpine-mongo
-    container_name: mongo
+    container_name: app_mongo
     ports:
       - 27018:27017
 
   redis:
     image: redis:3.2.11
-    container_name: queue-redis
+    container_name: app_queue-redis
     ports:
       - 6389:6379
