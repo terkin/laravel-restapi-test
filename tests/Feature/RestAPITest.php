@@ -96,5 +96,11 @@ class RestAPITest extends TestCase
 		])->json('GET', '/api/status/' . $videoId);
 		$response->assertStatus(200);
 		$this->assertEquals(Video::STATUS_DONE, $response->getOriginalContent()['data']['status']);
+
+		//test with wrong video id
+		$response = $this->withHeaders([
+			'deviceToken' => $deviceToken,
+		])->json('GET', '/api/status/bad-video-id');
+		$response->assertStatus(404);
 	}
 }

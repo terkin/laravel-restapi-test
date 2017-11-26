@@ -27,7 +27,7 @@ class VideoRepository extends BaseRepository
 		return $return;
 	}
 
-	public function getVideoById($id) {
+	public function getVideoById(string $id) : ?Video {
 		return $this->model->find($id);
 	}
 }
