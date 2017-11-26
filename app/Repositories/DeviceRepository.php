@@ -14,4 +14,9 @@ class DeviceRepository extends BaseRepository
 		$device = $this->create(['deviceToken' => password_hash(bin2hex(random_bytes(5)), PASSWORD_BCRYPT)]);
 		return $device;
 	}
+
+	public function findDeviceByToken($token) : ?Device {
+		return $this->getWhere([], 'deviceToken', '=', $token)->first();
+
+	}
 }
