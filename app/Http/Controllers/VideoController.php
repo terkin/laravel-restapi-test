@@ -53,6 +53,71 @@ class VideoController extends ApiController {
 		]);
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/trim",
+	 *     summary="Create new job to trim the video",
+	 *     consumes={"multipart/form-data"},
+	 *     @SWG\Parameter(
+	 *         description="deviceToken",
+	 *         in="header",
+	 *         name="deviceToken",
+	 *         required=true,
+	 *         type="string"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="video file to upload",
+	 *         in="formData",
+	 *         name="video",
+	 *         required=true,
+	 *         type="file"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="seconds from the start to trim video",
+	 *         in="formData",
+	 *         name="start",
+	 *         required=false,
+	 *         type="integer"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="seconds when stop trim video",
+	 *         in="formData",
+	 *         name="end",
+	 *         required=false,
+	 *         type="integer"
+	 *     ),
+	 *     @SWG\Response(
+	 *          response=200,
+	 *          description="video successfully enqued",
+	 *     	    examples={
+	 *              "application/json": {
+	 *                  "statusCode"=200,
+	 *                  "statusMessage"="OK",
+	 *                  "data"={
+	 *                      "status"="scheduled",
+	 *                      "videoId"="5a1a8b2bfea65f00154056b3",
+	 *                      "url"="http://site.com/storage/video/abs.mp4"
+	 *                  }
+	 *              }
+	 *          }
+	 *      ),
+	 *     @SWG\Response(
+	 *           response=400,
+	 *           description="validation error",
+	 *     	     examples={
+	 *              "application/json": {
+	 *                  "statusCode"=400,
+	 *                  "statusMessage"="ERROR",
+	 *                  "errorCode"=4000,
+	 *                  "errors"={
+	 *                      "start"={"The start field is required when none of start / end are present."},
+	 *                      "end"={"The end field is required when none of start / end are present."}
+	 *                  }
+	 *              }
+	 *          }
+	 *      )
+	 * ),
+	 */
 	public function trim(Request $request, VideoRepository $videoRepo) {
 		$start = $request->get('start', 0);
 		$end = $request->get('end');
@@ -63,6 +128,7 @@ class VideoController extends ApiController {
 			'end'       => 'required_without_all:start,end',
 			'video'     => 'required'
 		];
+		//TODO add video mime type validations to allow only supported files
 		$validator = Validator::make($request->all(),  $rules);
 
 		if ($validator->fails()) {
