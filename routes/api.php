@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('request-token', 'ApiController@requestToken');
+
+Route::group(['middleware' => ['auth.device']], function () {
+	Route::get('/', 'VideoController@index');
+	Route::get('status/{id}', 'VideoController@status');
+	Route::get('restart/{id}', 'VideoController@restart');
+	Route::post('trim', 'VideoController@trim');
 });
+
