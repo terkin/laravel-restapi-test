@@ -31,6 +31,7 @@ class ApiController extends BaseController
 
     const BAD_DEVICE_TOKEN      = 1000;
     const MISSING_PARAM         = 4000;
+    const ENTITY_NOT_FOUND      = 4004;
     const NOT_OWNER             = 3000;
     const INVALID_STATUS_CHANGE = 5000;
     const ROUTE_NOT_FOUND       = 4001;
@@ -73,4 +74,9 @@ class ApiController extends BaseController
 		    return $this->sendResponse(['You dont have permissions'], 403, self::NOT_OWNER);
 	    }
     }
+
+	public function version()
+	{
+		return $this->sendResponse(['version' => '1']);
+	}
 }

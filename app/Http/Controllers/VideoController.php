@@ -21,6 +21,9 @@ class VideoController extends ApiController {
 
 	public function status($id, VideoRepository $videoRepo) {
 		$videoModel = $videoRepo->getVideoById($id);
+		if(null === $videoModel) {
+			return $this->sendResponse(['Video with this id not found'], 404, self::ENTITY_NOT_FOUND);
+		}
 		$this->validateOwnership($videoModel);
 
 		return $this->sendResponse(
@@ -31,6 +34,9 @@ class VideoController extends ApiController {
 	public function restart($id, VideoRepository $videoRepo) {
 		/** @var Video $videoModel */
 		$videoModel = $videoRepo->getVideoById($id);
+		if(null === $videoModel) {
+			return $this->sendResponse(['Video with this id not found'], 404, self::ENTITY_NOT_FOUND);
+		}
 		$this->validateOwnership($videoModel);
 
 		//only failed jobs can be restarted
